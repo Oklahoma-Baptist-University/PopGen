@@ -1,0 +1,7 @@
+{
+    "hostName": "localhost",
+    "port": 8080,
+    "logPath": "PopGen/log.log",
+    "emptyImage": "",
+    "filledImage": ""
+}
