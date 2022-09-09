@@ -1,0 +1,47 @@
+.title {
+
+    padding: 5vh 2.5vw 0vh;
+
+}
+
+.title h1 {
+
+    padding: 1rem 1rem 1rem;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+
+}
+
+.information {
+
+    display: grid;
+    grid-template-columns: repeat(1, 0.5fr);
+    gap: 2.5vw;
+    place-content: center;
+
+
+}
+
+.information article {
+
+    padding: 1rem;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+
+}
+
+@media screen and (max-width: 768px) {
+
+    .information {
+
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .title h1 {
+
+        padding: 0rem;
+        box-shadow: none;
+    
+    }
+
+}

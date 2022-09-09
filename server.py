@@ -53,9 +53,23 @@ class MyServer(BaseHTTPRequestHandler):
             self.end_headers()
             try:
                 model = p.PopGen(N, MALE_PROPORTION)
-                model.run_simulation()
+                jsonRaw = model.run_simulation()
+                print(jsonRaw)
                 print("Simulation completed succesfully.")
-                self.wfile.write(bytes("Simulation completed succesfully.", "utf-8"))
+                logging.info("Simulation completed succesfully.")
+
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(bytes(jsonRaw, "utf-8"))
+                
+                #self.wfile.write(bytes("Simulation Results:", "utf-8"))
+                #self.wfile.write(bytes("\n\nTotal population at the bottom of the tree: %s" %pop, "utf-8"))
+                #self.wfile.write(bytes("\nNumber of generations until A/E couple emerged: %s" %num_gens, "utf-8"))
+                #self.wfile.write(bytes("\nNumber of ancestral couples still in gene pool at simulation end: %s" %int(num_anc_rep/2), "utf-8"))
+                #self.wfile.write(bytes("\nNumber of A/E couples at simulation end: %s" %int(num_ae_couples), "utf-8"))
+                #self.wfile.write(bytes("\nNumber of ancestral couples who are ancestors of 90 + percent of final generation: %s" %almost_ae, "utf-8"))
+
             except Exception as e:
                 print("An exception occured.")
                 logging.info(e)

@@ -1,0 +1,274 @@
+/* ----------- */
+/* || FONTS || */
+/* ----------- */
+
+@font-face {
+
+    font-family: "Caecilia";
+    src: url("../../assets/fonts/caecilia-lt-pro-cufonfonts/CaeciliaLTPro55Roman.TTF") format("tff");
+
+}
+
+/* ------------ */
+/* || COLORS || */
+/* ------------ */
+
+:root {
+
+    /* The color of main body of the webpage. */
+    --webpage-color: #FAF9F6;
+
+    /* The color of all generic text elements. */
+    --text-color: #404040;
+
+    /* The color of the header and footer elements. */
+    --sidebar-color: #95c777;
+
+    /* The color that highlights elements when the cursor hovers over them. */
+    --hover-background-color: #89b86c;
+
+    /* The color that the text changes to when the cursor hovers over them. */
+    --hover-text-color: #FFFFFF;
+
+}
+
+* {
+
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    font-family: Arial, Helvetica, sans-serif
+
+}
+
+
+html {
+
+    /* The default font size is typically 16px for most browsers. 75% should equate to 12px. */
+    font-size: 100%;
+
+}
+
+body {
+    
+    background-color: var(--webpage-color);
+    color: var(--text-color);
+    font-family: "PT Serif", Georgia, Times, "Times New Roman", serif;
+    
+    transition: 0.5s;
+
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+
+    padding: 0px;
+
+    min-height: 100vh;
+    max-height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+section {
+
+    padding: 5vh 2.5vw;
+
+}
+
+h1 {
+
+    text-align: center;
+    font-size: 2.5rem;
+    
+}
+
+h2 {
+
+    font-size: 2.0rem;
+    
+}
+
+h3 {
+
+    font-size: 1.5rem;
+    font-style: italic;
+
+}
+
+p {
+
+    font-size: 1.25rem;
+    line-height: 1.5;
+    padding-bottom: 0.5rem;
+
+}
+
+a {
+
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--text-color);
+
+    transition: 0.5s;
+
+}
+
+a:hover {
+
+    background-color: var(--hover-background-color);
+    transition: 0.5s;
+    
+}
+
+
+label {
+
+    font-size: 1rem;
+    line-height: 1.5;
+
+}
+
+/* -------------------- */
+/* || NAVIGATION BAR || */
+/* -------------------- */
+
+nav {
+
+    background-color: var(--sidebar-color);
+    transition: 0.5s;
+    
+}
+
+nav ul {
+
+    list-style-type: none;
+    overflow: hidden;
+
+}
+
+nav li {
+
+    float: left;
+    height: 50px;
+
+}
+
+nav a {
+
+    display: block;
+    text-align: center;
+    padding: 1rem;
+
+}
+
+/* ------------ */
+/* || FOOTER || */
+/* ------------ */
+
+main {
+
+    flex-grow: 1;
+    min-height: 100%;
+
+}
+
+.burger {
+
+    display: none;
+
+}
+
+footer {
+
+    flex-shrink: 0;
+
+    padding: 1rem 1rem 1rem;
+    background-color: var(--sidebar-color);
+
+}
+
+footer div {
+
+    width: 50%;
+
+}
+
+footer p {
+
+    font-size: 0.85rem;
+    padding: 0;
+
+}
+
+.separator {
+
+    border-color: #488720;
+    background-color: #488720;
+    margin: 1rem;
+    padding: 0.05rem;
+
+}
+
+@media screen and (max-width: 768px) {
+
+    nav {
+
+        margin-top: -200px;
+
+    }
+
+    nav ul {
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    
+    }
+
+    section {
+
+        padding: 2.5vh 2.5vw;
+
+    }
+
+    h1 {
+
+        font-size: 2.0rem;
+
+    }
+
+    .burger {
+
+        display: block;
+        text-align: center;
+
+    }
+
+    .fa-bars {
+
+        width: 100vw;
+
+    }
+
+}
+
+.card {
+
+    padding: 1rem;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+
+}
+
+div.center {
+    text-align: center;
+}

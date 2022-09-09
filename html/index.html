@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- + "<br> PROBABILITY: " + myJson.Percentage.toFixed(2) + "%" -->
+<html lang="en">
+    <head>
+        <script src = "header.js"></script>
+        <link rel="stylesheet" href="turing-defaults.css">
+        <link rel="stylesheet" href="turing-default-page.css">
+    </head>
+    <body>
+        <section class="information">
+            <article class="stem">
+                <h1>Population Genealogy Simulatin</h1>
+                <script>
+                    async function showResults(){
+                        
+                        var url = new URL("http://localhost:8080/popgen?100&0.5");
+
+                        console.log(url.toString())
+                        
+                        const response = await fetch(url);
+                        const myJson = await response.json(); 
+
+                        console.log(myJson)
+                        
+                        predictedClass = document.getElementById("pop").innerHTML = "Population: " + myJson.Pop
+
+                    }
+                </script>
+                <p id="predicted-class"></p>
+                <div class="center">
+                    <button type="show results" onclick="showResults()" id="submit">Run Simulation</button>
+                </div>
+                
+            </article>
+        </section>
+    </body>
+    <footer>
+        <script src = footer.js></script>
+    </footer>
+</html>
