@@ -13,7 +13,6 @@ class PopGen:
     def getMALE_PROPORTION(self):
         return self.MALE_PROPORTION
 
-    #def make_couples(self, generation:np.ndarray, male_proportion:float = getMALE_PROPORTION) -> np.ndarray:
     def make_couples(self, generation:np.ndarray) -> np.ndarray:
         """Split the generation into male and female segments, form couples
         
@@ -90,17 +89,11 @@ class PopGen:
         distribution_of_couples_descendants = c
         num_ae_couples = distribution_of_couples_descendants[self.getN()]
 
-        #print("Initial ancestral couples:", int(start_population / 2))
-        #print("Number of generations until A/E couple emerged:", num_generations)
-        #print("Number of ancestral couples still in gene pool at simulation end:", int(num_ancestors_represented/2))
-        #print("Number of A/E couples at simulation end:", int(num_ae_couples))
         almost_ae = 0
         for k in distribution_of_couples_descendants:
             if k >= self.getN() * 0.9:
                 almost_ae += distribution_of_couples_descendants[k]
-        #print("Number of ancestral couples who are ancestors of 90+% of final generation:", almost_ae)
 
-        #return start_population, num_generations, num_ancestors_represented, num_ae_couples, almost_ae
         return ("{\"pop\": \"" + str(start_population) + "\", \"num_gens\": \"" + str(num_generations) + 
             "\", \"num_anc_rep\": \"" + str(num_ancestors_represented) + "\", \"num_ae_couples\": \"" + str(num_ae_couples) +
             "\", \"almost_ae\": \"" + str(almost_ae) + "\"}")

@@ -26,6 +26,10 @@ logging.basicConfig(filename=path,
 #Server
 
 class MyServer(BaseHTTPRequestHandler):
+    def end_headers (self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        BaseHTTPRequestHandler.end_headers(self)
+
     def do_GET(self):
         logging.info(self.path)
         logging.info(self.client_address)
@@ -48,7 +52,6 @@ class MyServer(BaseHTTPRequestHandler):
 
         if self.path.startswith('/popgen'):
             self.send_response(200)
-            self.send_header('Access-Control-Allow-Origin', '*')
             self.send_header("Content-type", "application/json")
             self.end_headers()
             try:
@@ -58,17 +61,7 @@ class MyServer(BaseHTTPRequestHandler):
                 print("Simulation completed succesfully.")
                 logging.info("Simulation completed succesfully.")
 
-                self.send_response(200)
-                self.send_header("Content-type", "application/json")
-                self.end_headers()
                 self.wfile.write(bytes(jsonRaw, "utf-8"))
-                
-                #self.wfile.write(bytes("Simulation Results:", "utf-8"))
-                #self.wfile.write(bytes("\n\nTotal population at the bottom of the tree: %s" %pop, "utf-8"))
-                #self.wfile.write(bytes("\nNumber of generations until A/E couple emerged: %s" %num_gens, "utf-8"))
-                #self.wfile.write(bytes("\nNumber of ancestral couples still in gene pool at simulation end: %s" %int(num_anc_rep/2), "utf-8"))
-                #self.wfile.write(bytes("\nNumber of A/E couples at simulation end: %s" %int(num_ae_couples), "utf-8"))
-                #self.wfile.write(bytes("\nNumber of ancestral couples who are ancestors of 90 + percent of final generation: %s" %almost_ae, "utf-8"))
 
             except Exception as e:
                 print("An exception occured.")

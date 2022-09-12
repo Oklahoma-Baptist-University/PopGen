@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- + "<br> PROBABILITY: " + myJson.Percentage.toFixed(2) + "%" -->
 <html lang="en">
     <head>
         <script src = "header.js"></script>
@@ -10,27 +9,35 @@
         <section class="information">
             <article class="stem">
                 <h1>Population Genealogy Simulatin</h1>
+                <div id="simple"></div>
                 <script>
                     async function showResults(){
                         
-                        var url = new URL("http://localhost:8080/popgen?100&0.5");
+                        var url = new URL("http://localhost:8080/popgen?1000&0.5");
 
                         console.log(url.toString())
                         
                         const response = await fetch(url);
+
+                        console.log(response)
+
                         const myJson = await response.json(); 
 
                         console.log(myJson)
-                        
-                        predictedClass = document.getElementById("pop").innerHTML = "Population: " + myJson.Pop
 
+                        predictedClass = document.getElementById("simple").innerHTML = 
+                            "<br>Total population at the bottom of the tree: " + myJson.pop +
+                            "<br>Number of generations until A/E couple emerged: " + myJson.num_gens +
+                            "<br>Number of ancestral couples still in gene pool at simulation end: " + myJson.num_anc_rep/2 +
+                            "<br>Number of A/E couples at simulation end: " + myJson.num_ae_couples +
+                            "<br>Number of ancestral couples who are ancestors of 90 + percent of final generation: " + myJson.almost_ae +
+                            "<br><br>";
                     }
                 </script>
                 <p id="predicted-class"></p>
                 <div class="center">
                     <button type="show results" onclick="showResults()" id="submit">Run Simulation</button>
                 </div>
-                
             </article>
         </section>
     </body>
