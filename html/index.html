@@ -26,12 +26,28 @@
                         console.log(myJson)
 
                         predictedClass = document.getElementById("simple").innerHTML = 
-                            "<br>Total population at the bottom of the tree: " + myJson.pop +
-                            "<br>Number of generations until A/E couple emerged: " + myJson.num_gens +
-                            "<br>Number of ancestral couples still in gene pool at simulation end: " + myJson.num_anc_rep/2 +
-                            "<br>Number of A/E couples at simulation end: " + myJson.num_ae_couples +
-                            "<br>Number of ancestral couples who are ancestors of 90 + percent of final generation: " + myJson.almost_ae +
-                            "<br><br>";
+                            "<br><table>\n" +
+                                "<tr>" +
+                                    "<td>Total population at the bottom of the tree:</td>" + 
+                                    "<td>" + myJson.pop + "</td>" +
+                                "</tr>\n" +
+                                "<tr>" +
+                                    "<td>Number of generations until A/E couple emerged:</td>" + 
+                                    "<td>" + myJson.num_gens + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                    "<td>Number of ancestral couples still in gene pool at simulation end:</td>" + 
+                                    "<td>" + myJson.num_anc_rep/2 + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                    "<td>Number of A/E couples at simulation end:</td>" + 
+                                    "<td>" + myJson.num_ae_couples + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                    "<td>Number of ancestral couples who are ancestors of 90 + percent of final generation:</td>" + 
+                                    "<td>" + myJson.almost_ae + "</td>" +
+                                "</tr>" +
+                            "</table><br>";
                     }
                 </script>
                 <p id="predicted-class"></p>

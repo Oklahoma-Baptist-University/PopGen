@@ -70,13 +70,11 @@ class MyServer(BaseHTTPRequestHandler):
             
         elif self.path.endswith('/'):
             self.send_response(200)
-            self.send_header('Access-Control-Allow-Origin', '*')
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(bytes("Population Geneology homepage.", "utf-8"))
         else:
             self.send_response(404)
-            self.send_header('Access-Control-Allow-Origin', '*')
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(bytes("404 Page Not Found", "utf-8"))
