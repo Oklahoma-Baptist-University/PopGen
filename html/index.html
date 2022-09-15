@@ -7,7 +7,7 @@
     </head>
     <body>
         <section class="information">
-            <article class="stem">
+            <article class="center">
                 <h1>Population Genealogy Simulatin</h1>
                 <div id="simple"></div>
                 <script>
@@ -26,27 +26,29 @@
                         console.log(myJson)
 
                         predictedClass = document.getElementById("simple").innerHTML = 
-                            "<br><table>\n" +
-                                "<tr>" +
-                                    "<td>Total population at the bottom of the tree:</td>" + 
-                                    "<td>" + myJson.pop + "</td>" +
-                                "</tr>\n" +
-                                "<tr>" +
-                                    "<td>Number of generations until A/E couple emerged:</td>" + 
-                                    "<td>" + myJson.num_gens + "</td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                    "<td>Number of ancestral couples still in gene pool at simulation end:</td>" + 
-                                    "<td>" + myJson.num_anc_rep/2 + "</td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                    "<td>Number of A/E couples at simulation end:</td>" + 
-                                    "<td>" + myJson.num_ae_couples + "</td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                    "<td>Number of ancestral couples who are ancestors of 90 + percent of final generation:</td>" + 
-                                    "<td>" + myJson.almost_ae + "</td>" +
-                                "</tr>" +
+                            "<br><table class=\"beautiful\" >\n" +
+                                "<tbody" + 
+                                    "<tr>" +
+                                        "<td>Total population at the bottom of the tree:</td>" + 
+                                        "<td class=\"number\">" + myJson.pop + "</td>" +
+                                    "</tr>\n" +
+                                    "<tr>" +
+                                        "<td>Number of generations until A/E couple emerged:</td>" + 
+                                        "<td class=\"number\">" + myJson.num_gens + "</td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<td>Number of ancestral couples still in gene pool at simulation end:</td>" + 
+                                        "<td class=\"number\">" + myJson.num_anc_rep/2 + "</td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<td>Number of A/E couples at simulation end:</td>" + 
+                                        "<td class=\"number\">" + myJson.num_ae_couples + "</td>" +
+                                    "</tr>" +
+                                    "<tr>" +
+                                        "<td>Number of ancestral couples who are ancestors of 90 + percent of final generation:</td>" + 
+                                        "<td class=\"number\">" + myJson.almost_ae + "</td>" +
+                                    "</tr>" +
+                                "</tbody>" +
                             "</table><br>";
                     }
                 </script>
