@@ -16,9 +16,9 @@ if __name__ == '__main__':
     width = maxX + 20
     height = maxY + 20
     numReds = 1
-    numBlues = 50
+    numBlues = 10
     maxCreatureAge = 100
-    worldSpeed = 5
+    worldSpeed = 10
     window = win.Window(maxWorldAge, maxX, maxY, width, height, worldSpeed)
     theWorld = window.world
 
@@ -47,3 +47,7 @@ if __name__ == '__main__':
     #theWorld.visualizeTerrain()
 
     sys.exit(app.exec_())
+
+    theWorld.visualizeTerrain()
+    print(theWorld.grid)
+    print(theWorld.thingList)

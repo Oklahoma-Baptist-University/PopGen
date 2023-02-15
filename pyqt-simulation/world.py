@@ -3,10 +3,18 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import random
 import creatures as c
+import logging
 
 class World(QFrame):
 
     msg2statusbar = pyqtSignal(str)
+
+    logging.basicConfig(filename="PopGen/pyqt-simulation/log.log",
+        format="%(asctime)s %(levelname)s:%(message)s",
+        datefmt="%m/%d/%Y %I:%M:%S %p",
+        encoding="utf-8",
+        level=logging.DEBUG)
+    logging.info("Log file created.")
 
     def __init__(self, maxWorldAge, maxX, maxY, worldSpeed):
         super(World, self).__init__()
@@ -85,7 +93,9 @@ class World(QFrame):
                 if thing.dead == True:
                     self.delThing(thing)
                 else:
-                    thing.liveALittle()
+                    moved, mated = thing.liveALittle()
+                    logMessage = str(type(thing)) + " - Moved: " + str(moved) + " Mated: " + str(mated)
+                    logging.info(logMessage)
         else:
             self.msg2statusbar.emit("There is nothing left in the world...")
             print("There is nothing left in the world...")

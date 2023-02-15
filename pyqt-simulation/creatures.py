@@ -41,6 +41,9 @@ class MovingObject(ABC):
         if self.world.emptyLocation(nextX, nextY):
             self.xPos = nextX
             self.yPos = nextY
+            return True
+        
+        return False
 
     def birth(self, baby):
         randomOffsetIndex = random.randrange(len(self.offsetList))
@@ -68,11 +71,15 @@ class MovingObject(ABC):
     #@abstractmethod
     def liveALittle(self):
         if self.babies < 1:
-            self.tryToMove()
-            self.findMate()
+            moved = self.tryToMove()
+            mated = self.findMate()
             self.age += 1
         else:
+            moved = False
+            mated = False
             self.dead = True
+        
+        return moved, mated
     
 
 # Red
@@ -163,7 +170,7 @@ class nextGenDot(MovingObject):
             if isinstance(thingThere, BlueDot):
                 mateFound = "blue"
                 break
-            if isinstance(thingThere, RedDot):
+            if isinstance(thingThere, RedDot): # Make this a function
                 mateFound = "red"
                 break
             if isinstance(thingThere, nextGenDot):
