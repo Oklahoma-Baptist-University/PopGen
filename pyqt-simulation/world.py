@@ -13,7 +13,8 @@ class World(QFrame):
         format="%(asctime)s %(levelname)s:%(message)s",
         datefmt="%m/%d/%Y %I:%M:%S %p",
         encoding="utf-8",
-        level=logging.DEBUG)
+        level=logging.DEBUG,
+        filemode="w")
     logging.info("Log file created.")
 
     def __init__(self, maxWorldAge, maxX, maxY, worldSpeed):
@@ -87,6 +88,11 @@ class World(QFrame):
             print("Max world age reached.")
             self.timer.stop()
             self.update()
+        elif all([thing.geneLvl > 0 for thing in self.thingList]):
+            self.msg2statusbar.emit("All things in world have gene presence.")
+            print("All things in world have gene presence.")
+            self.timer.stop()
+            self.update()    
         elif self.thingList != []:
             random.shuffle(self.thingList)
             for thing in self.thingList:
@@ -94,8 +100,10 @@ class World(QFrame):
                     self.delThing(thing)
                 else:
                     moved, mated = thing.liveALittle()
-                    logMessage = str(type(thing)) + " - Moved: " + str(moved) + " Mated: " + str(mated)
+                    logMessage = str(type(thing)) + " - Moved: " + str(moved) + \
+                        " | Mated: " + str(mated) + " | Gene Level: " + str(thing.geneLvl)
                     logging.info(logMessage)
+        
         else:
             self.msg2statusbar.emit("There is nothing left in the world...")
             print("There is nothing left in the world...")
@@ -106,7 +114,8 @@ class World(QFrame):
         #image = QPixmap(thing.imagePath)
         #painter.drawPixmap(int(thing.xPos), int(thing.yPos), 15, 15, image)
 
-        painter.setPen(QPen(thing.color, 5, Qt.SolidLine))
+        color = QColor(thing.geneLvl, 0, 100)
+        painter.setPen(QPen(color, 5, Qt.SolidLine))
         painter.drawEllipse(int(thing.xPos), int(thing.yPos), 5, 5)
 
     def drawTerrain(self, painter, terrain):

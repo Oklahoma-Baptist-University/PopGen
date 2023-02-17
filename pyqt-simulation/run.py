@@ -10,24 +10,27 @@ import terrain as t
 # Run
 if __name__ == '__main__':
     app = QApplication([])
-    maxWorldAge = 128319877
+
+    maxWorldAge = 20000000
     maxX = 800
     maxY = 600
     width = maxX + 20
     height = maxY + 20
-    numReds = 1
-    numBlues = 10
-    maxCreatureAge = 100
-    worldSpeed = 10
+
+    numReds = 5
+    numBlues = 50
+    maxCreatureAge = 2
+    worldSpeed = 25
+    geneTransferSpeed = 50
+
     window = win.Window(maxWorldAge, maxX, maxY, width, height, worldSpeed)
     theWorld = window.world
-
     theWorld.addTerrain(t.Water(20, 20, 100))
     theWorld.addTerrain(t.Water(100, 200, 300))
     theWorld.addTerrain(t.Mountains(450, 30, 200))
 
     for i in range(numReds):
-        newDot = c.RedDot(maxCreatureAge, 10)
+        newDot = c.RedDot(maxCreatureAge, 10, geneTransferSpeed)
         x = random.randrange(theWorld.maxX)
         y = random.randrange(theWorld.maxY)
         while not theWorld.emptyLocation(x, y):
@@ -36,7 +39,7 @@ if __name__ == '__main__':
         theWorld.addThing(newDot, x, y)
 
     for i in range(numBlues):
-        newDot = c.BlueDot(maxCreatureAge, 10)
+        newDot = c.BlueDot(maxCreatureAge, 10, geneTransferSpeed)
         x = random.randrange(theWorld.maxX)
         y = random.randrange(theWorld.maxY)
         while not theWorld.emptyLocation(x, y):
@@ -45,9 +48,9 @@ if __name__ == '__main__':
         theWorld.addThing(newDot, x, y)
 
     #theWorld.visualizeTerrain()
-
+    
     sys.exit(app.exec_())
 
-    theWorld.visualizeTerrain()
-    print(theWorld.grid)
-    print(theWorld.thingList)
+theWorld.visualizeTerrain()
+print(theWorld.grid)
+print(theWorld.thingList)

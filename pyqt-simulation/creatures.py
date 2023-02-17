@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 
 # Class for anything that moves around.
 class MovingObject(ABC):
-    def __init__(self, maxAge, speed):
+    def __init__(self, maxAge, speed, geneTransferSpeed):
         self.world = None
         self.dead = False
         self.birthYear = None
@@ -25,6 +25,7 @@ class MovingObject(ABC):
                               (-3, -1), (-2, -1), (-1, -1), (0, -1), (1, -1), (2, -1), (3, -1),
                               (-3, -2), (-2, -2), (-1, -2), (0, -2), (1, -2), (2, -2), (3, -2),
                               (-3, -3), (-2, -3), (-1, -3), (0, -3), (1, -3), (2, -3), (3, -3)]
+        self.geneTransferSpeed = geneTransferSpeed
 
     def tryToMove(self):
         randomOffsetIndex = random.randrange(len(self.offsetList))
@@ -64,15 +65,35 @@ class MovingObject(ABC):
             return True
         return False
 
+    def findMate(self):
+        mateFound = None
+        for offset in self.distantOffset:
+            thingThere = self.world.checkLocation(self.xPos + offset[0], self.yPos + offset[1])
+            if isinstance(thingThere, BlueDot):
+                mateFound = "blue"
+                break
+            if isinstance(thingThere, RedDot):
+                mateFound = "red"
+                break
+            if isinstance(thingThere, nextGenDot):
+                mateFound = "nextGen"
+                break
+        return mateFound, thingThere
+
     @abstractmethod
-    def findMate(self, baby):
+    def passOnGene(self, mateFound, thing):
         return
+
+    def geneCheck(self, baby):
+        if baby.geneLvl > 255:
+            baby.geneLvl = 255
 
     #@abstractmethod
     def liveALittle(self):
         if self.babies < 1:
             moved = self.tryToMove()
-            mated = self.findMate()
+            mateFound, thing = self.findMate()
+            mated = self.passOnGene(mateFound, thing)
             self.age += 1
         else:
             moved = False
@@ -80,42 +101,32 @@ class MovingObject(ABC):
             self.dead = True
         
         return moved, mated
-    
+
 
 # Red
 class RedDot(MovingObject):
-    def __init__(self, maxAge, speed):
-        super().__init__(maxAge, speed)
+    def __init__(self, maxAge, speed, geneTransferSpeed):
+        super().__init__(maxAge, speed, geneTransferSpeed)
+        self.geneTransferSpeed = geneTransferSpeed
         self.geneLvl = 255
-        self.color = QColor(self.geneLvl, 0, 0)
         self.babies = 0
 
-    def findMate(self):
-        mateFound = None
-        for offset in self.distantOffset:
-            thingThere = self.world.checkLocation(self.xPos + offset[0], self.yPos + offset[1])
-            if isinstance(thingThere, BlueDot):
-                mateFound = "blue"
-                break
-            if isinstance(thingThere, RedDot):
-                mateFound = "red"
-                break
-            if isinstance(thingThere, nextGenDot):
-                mateFound = "nextGen"
-                break
-
+    def passOnGene(self, mateFound, thing):
         if mateFound == "blue":
-            baby = nextGenDot(self.maxAge, self.speed)
-            baby.geneLvl += 25
+            baby = nextGenDot(self.maxAge, self.speed, self.geneTransferSpeed)
+            baby.geneLvl += self.geneTransferSpeed
+            self.geneCheck(baby)
             self.birth(baby)
             return True
         if mateFound == "red":
-            baby = RedDot(self.maxAge, self.speed)
+            baby = RedDot(self.maxAge, self.speed, self.geneTransferSpeed)
+            self.geneCheck(baby)
             self.birth(baby)
             return True
         if mateFound == "nextGen":
-            baby = nextGenDot(self.maxAge, self.speed)
-            baby.geneLvl += thingThere.geneLvl + 25
+            baby = nextGenDot(self.maxAge, self.speed, self.geneTransferSpeed)
+            baby.geneLvl += thing.geneLvl + self.geneTransferSpeed
+            self.geneCheck(baby)
             self.birth(baby)
             return True
     
@@ -123,33 +134,27 @@ class RedDot(MovingObject):
 
 # Blue
 class BlueDot(MovingObject):
-    def __init__(self, maxAge, speed):
-        super().__init__(maxAge, speed)
+    def __init__(self, maxAge, speed, geneTransferSpeed):
+        super().__init__(maxAge, speed, geneTransferSpeed)
+        self.geneTransferSpeed = geneTransferSpeed
         self.geneLvl = 0
-        self.color = QColor(self.geneLvl, 0, 255)
         self.babies = 0
 
-    def findMate(self):
-        mateFound = None
-        for offset in self.distantOffset:
-            thingThere = self.world.checkLocation(self.xPos + offset[0], self.yPos + offset[1])
-            if isinstance(thingThere, BlueDot):
-                mateFound = "blue"
-                break
-            if isinstance(thingThere, RedDot):
-                mateFound = "red"
-                break
-            if isinstance(thingThere, nextGenDot):
-                mateFound = "nextGen"
-                break
-
-        if (mateFound == "red") or (mateFound == "nextGen"):
-            baby = nextGenDot(self.maxAge, self.speed)
-            baby.geneLvl += thingThere.geneLvl
+    def passOnGene(self, mateFound, thing):
+        if mateFound == "red":
+            baby = nextGenDot(self.maxAge, self.speed, self.geneTransferSpeed)
+            baby.geneLvl += self.geneTransferSpeed
+            self.geneCheck(baby)
             self.birth(baby)
             return True
+        if mateFound == "nextGen":
+            baby = nextGenDot(self.maxAge, self.speed, self.geneTransferSpeed)
+            baby.geneLvl += thing.geneLvl
+            self.geneCheck(baby)
+            self.birth(baby)
         if mateFound == "blue":
-            baby = BlueDot(self.maxAge, self.speed)
+            baby = BlueDot(self.maxAge, self.speed, self.geneTransferSpeed)
+            self.geneCheck(baby)
             self.birth(baby)
             return True
 
@@ -157,40 +162,29 @@ class BlueDot(MovingObject):
 
 
 class nextGenDot(MovingObject):
-    def __init__(self, maxAge, speed):
-        super().__init__(maxAge, speed)
+    def __init__(self, maxAge, speed, geneTransferSpeed):
+        super().__init__(maxAge, speed, geneTransferSpeed)
+        self.geneTransferSpeed = geneTransferSpeed
         self.geneLvl = 0
-        self.color = QColor(self.geneLvl, 0, 255)
         self.babies = 0
 
-    def findMate(self):
-        mateFound = None
-        for offset in self.distantOffset:
-            thingThere = self.world.checkLocation(self.xPos + offset[0], self.yPos + offset[1])
-            if isinstance(thingThere, BlueDot):
-                mateFound = "blue"
-                break
-            if isinstance(thingThere, RedDot): # Make this a function
-                mateFound = "red"
-                break
-            if isinstance(thingThere, nextGenDot):
-                mateFound = "nextGen"
-                break
-
+    def passOnGene(self, mateFound, thing):
         if mateFound == "blue":
-            baby = nextGenDot(self.maxAge, self.speed)
-            baby.geneLvl += 25
+            baby = nextGenDot(self.maxAge, self.speed, self.geneTransferSpeed)
+            baby.geneLvl += self.geneTransferSpeed
+            self.geneCheck(baby)
             self.birth(baby)
             return True
         if mateFound == "red":
-            baby = nextGenDot(self.maxAge, self.speed)
-            baby.geneLvl += self.geneLvl + 25
+            baby = nextGenDot(self.maxAge, self.speed, self.geneTransferSpeed)
+            baby.geneLvl += self.geneLvl + self.geneTransferSpeed
+            self.geneCheck(baby)
             self.birth(baby)
             return True
         if mateFound == "nextGen":
-            baby = nextGenDot(self.maxAge, self.speed)
-            #baby.geneLvl = int((thingThere.geneLvl + self.geneLvl) / 2)
-            baby.geneLvl += thingThere.geneLvl + 25
+            baby = nextGenDot(self.maxAge, self.speed, self.geneTransferSpeed)
+            baby.geneLvl += thing.geneLvl + self.geneTransferSpeed
+            self.geneCheck(baby)
             self.birth(baby)
             return True
 
