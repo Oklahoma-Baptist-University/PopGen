@@ -12,7 +12,7 @@ class Window(QMainWindow):
         self.statusbar = self.statusBar()
         self.statusbar.setStyleSheet("border : 2px solid black;")
   
-        # calling showMessage method when signal received by World
+        # Calling showMessage method when signal received by World.
         self.world.msg2statusbar[str].connect(self.statusbar.showMessage)
 
         self.setCentralWidget(self.world)

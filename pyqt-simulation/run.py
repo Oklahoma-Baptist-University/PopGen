@@ -19,8 +19,8 @@ if __name__ == '__main__':
 
     numReds = 5
     numBlues = 50
-    maxCreatureAge = 2
-    worldSpeed = 25
+    maxCreatureAge = 0 # Not used right now for testing.
+    worldSpeed = 50
     geneTransferSpeed = 50
 
     window = win.Window(maxWorldAge, maxX, maxY, width, height, worldSpeed)
@@ -47,10 +47,4 @@ if __name__ == '__main__':
             y = random.randrange(theWorld.maxY)
         theWorld.addThing(newDot, x, y)
 
-    #theWorld.visualizeTerrain()
-    
     sys.exit(app.exec_())
-
-theWorld.visualizeTerrain()
-print(theWorld.grid)
-print(theWorld.thingList)

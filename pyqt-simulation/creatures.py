@@ -4,8 +4,7 @@ from PyQt5.QtGui import *
 import random
 from abc import ABC, abstractmethod
 
-# Class for anything that moves around.
-class MovingObject(ABC):
+class MovingObject(ABC): # Class for anything that moves around.
     def __init__(self, maxAge, speed, geneTransferSpeed):
         self.world = None
         self.dead = False
@@ -88,7 +87,7 @@ class MovingObject(ABC):
         if baby.geneLvl > 255:
             baby.geneLvl = 255
 
-    #@abstractmethod
+    #@abstractmethod, eventually.
     def liveALittle(self):
         if self.babies < 1:
             moved = self.tryToMove()
@@ -103,7 +102,6 @@ class MovingObject(ABC):
         return moved, mated
 
 
-# Red
 class RedDot(MovingObject):
     def __init__(self, maxAge, speed, geneTransferSpeed):
         super().__init__(maxAge, speed, geneTransferSpeed)
@@ -132,7 +130,7 @@ class RedDot(MovingObject):
     
         return False
 
-# Blue
+
 class BlueDot(MovingObject):
     def __init__(self, maxAge, speed, geneTransferSpeed):
         super().__init__(maxAge, speed, geneTransferSpeed)

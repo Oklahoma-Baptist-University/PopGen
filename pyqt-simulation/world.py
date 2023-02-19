@@ -2,7 +2,6 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import random
-import creatures as c
 import logging
 
 class World(QFrame):
@@ -28,7 +27,7 @@ class World(QFrame):
         self.maxY = maxY
         self.grid = []
 
-        self.terrainGrid = [] # Unused right now.
+        self.terrainGrid = []
         self.terrainList = []
 
         self.thingList = []
@@ -48,11 +47,7 @@ class World(QFrame):
                 row.append("L")
             self.terrainGrid.append(row)
 
-        print("Size of grid:", len(self.grid))
-        #print(self.terrainGrid)
-
-    def start(self):
-        # Starting message and the clock
+    def start(self): # Starting message and the clock
         self.msg2statusbar.emit("Simulating.")
         self.timer.start(self.worldSpeed, self)
 
@@ -67,6 +62,10 @@ class World(QFrame):
             return thing
         else:
             print("Looks like there was something already there.")
+    
+    def delThing(self, thing):
+        self.grid[thing.yPos][thing.xPos] = None
+        self.thingList.remove(thing)
 
     def addTerrain(self, terrain):
         self.terrainList.append(terrain)
@@ -77,10 +76,6 @@ class World(QFrame):
     def visualizeTerrain(self):
         for row in self.terrainGrid:
             print(row)
-    
-    def delThing(self, thing):
-        self.grid[thing.yPos][thing.xPos] = None
-        self.thingList.remove(thing)
 
     def advanceTime(self):
         if self.worldAge > self.maxWorldAge:
@@ -122,9 +117,8 @@ class World(QFrame):
         painter.setPen(QPen(terrain.color, 5, Qt.SolidLine))
         painter.setBrush(QBrush(terrain.color, Qt.DiagCrossPattern))
         painter.drawRect(terrain.x, terrain.y, terrain.h, terrain.w)
-
-    # Draw everything for each frame.
-    def paintEvent(self, event):
+    
+    def paintEvent(self, event): # Draw everything for each frame.
         painter = QPainter(self)
         for thing in self.thingList:
             self.drawThing(painter, thing)
@@ -136,7 +130,6 @@ class World(QFrame):
             self.advanceTime()
             self.update()
             self.worldAge += 1
-            #print("World age:", self.worldAge)
 
     def emptyLocation(self, x, y):
         try:
